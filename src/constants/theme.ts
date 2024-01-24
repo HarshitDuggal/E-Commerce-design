@@ -1,5 +1,6 @@
 //colors used
 export const Colors = {
+  white: '#ffffff',
   lightYellow: '#FFC83A',
   darkYellow: '#F9B023',
   lightBlue: '#2A4BA0',
