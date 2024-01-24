@@ -4,6 +4,7 @@ import HomeIcon from './home.svg';
 import MoreIcon from './more_vertical.svg';
 import BagIcon from './bag.svg';
 import SearchIcon from './Search.svg';
-import DropDownIcon from './drop arrow icon.svg'
+import DropDownIcon from './drop arrow icon.svg';
+import ImageIcon from './ImageIcon.svg';
 
-export {CategoryIcon,HeartIcon,HomeIcon,MoreIcon,BagIcon,SearchIcon,DropDownIcon};
+export {CategoryIcon,HeartIcon,HomeIcon,MoreIcon,BagIcon,SearchIcon,DropDownIcon,ImageIcon};
