@@ -8,6 +8,8 @@ import Categories from '../screens/categories';
 import Favourite from '../screens/favourite';
 import Home from '../screens/home';
 import More from '../screens/more';
+import Cart from '../screens/cart';
+import ProductPage from '../screens/productPage';
 
 //icons import
 import {HomeIcon, CategoryIcon, HeartIcon, MoreIcon} from '../images/svg/index';
@@ -19,6 +21,8 @@ const MainStack = () => {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen name="HomeScreen" component={Home} />
+      <Stack.Screen name="CartScreen" component={Cart} />
+      <Stack.Screen name="ProductPageScreen" component={ProductPage} />
     </Stack.Navigator>
   );
 };

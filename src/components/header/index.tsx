@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import {Colors} from '../../constants/theme';
 import {BagIcon, DropDownIcon, SearchIcon} from '../../images/svg';
 import headerStyles from './style';
+import { useNavigation } from '@react-navigation/native';
 const Header = () => {
 
   const multipleAddress = [
@@ -11,9 +12,12 @@ const Header = () => {
     'Golden Manor, Dehradun',
   ];
   const avaliableTimings = ['30 Mins', '1 Hour', '2 Hour'];
+  
   const [search, setSearch] = useState('')
   const [address, setAddress] = useState(multipleAddress[0]);
   const [timings, setTimings] = useState(avaliableTimings[0]);
+
+  const navigation = useNavigation();
   const handleSearch = () => {
     
     console.log("Hello i am gere");
@@ -28,11 +32,15 @@ const Header = () => {
     console.log("Hello this is clicked");
     
   }
+
+  const handleCart = () => {
+    navigation.navigate('CartScreen' as never)
+  }
   return (
     <View style={headerStyles.headerContainer}>
       <View style={headerStyles.titleContainer}>
         <Text style={headerStyles.titleText}>Hey, Rahul</Text>
-        <BagIcon />
+        <BagIcon onPress={handleCart} />
       </View>
       <View style={headerStyles.searchBarContainer}>
         <SearchIcon height={18} width={18} style={headerStyles.searchIcon} />
