@@ -9,6 +9,8 @@ import ImageIcon from './ImageIcon.svg';
 import PlusIcon from './plusIcon.svg';
 import MinusIcon from './Minus.svg';
 import FilledHeartIcon from './heartIcon.svg';
+import BackArrowIcon from './backArrowIcon.svg';
+import BlackBag from './bag black.svg';
 
 export {
   CategoryIcon,
@@ -22,4 +24,6 @@ export {
   PlusIcon,
   MinusIcon,
   FilledHeartIcon,
+  BackArrowIcon,
+  BlackBag
 };
