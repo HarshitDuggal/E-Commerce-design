@@ -1,4 +1,4 @@
-// import {View, Text, Image} from 'react-native';
+// import {View, Text, Image, TouchableOpacity} from 'react-native';
 // import React, {useEffect, useState} from 'react';
 // import {Colors} from '../../constants/theme';
 // import {
@@ -9,7 +9,12 @@
 // } from '../../images/svg';
 // import {useDispatch, useSelector} from 'react-redux';
 // import {getProducts} from '../../redux/actions/productAction';
-// import {selectLoading, selectProducts} from '../../redux/slices/productsSlice';
+// import {
+//   selectLoading,
+//   selectProducts,
+//   selectSearchText,
+// } from '../../redux/slices/productsSlice';
+// import {useNavigation} from '@react-navigation/native';
 
 // interface Product {
 //   id: number;
@@ -18,34 +23,140 @@
 //   images: string[];
 // }
 
-// const Product = () => {
-//   //selector funnctions
-//   const fetchedProducts = useSelector(selectProducts);
-//   const isLoading = useSelector(selectLoading);
-
-//   //dispatch function's
-//   const dispatch = useDispatch<any>();
-//   useEffect(() => {
-//     getProductsFunc();
-//   }, []);
-//   //useState's
+// const ProductComponent = ({product}: {product: Product}) => {
 //   const [quantity, setQuantity] = useState(0);
 //   const [isFavorited, setIsFavorited] = useState(false);
 
-//   //functions
+//   const navigation = useNavigation();
+
 //   const handleQuantityIncrease = () => {
-//     setQuantity(() => quantity + 1);
-//   };
-//   const handleQuantityDecrease = () => {
-//     setQuantity(() => quantity - 1);
-//   };
-//   const handleFavourites = () => {
-//     setIsFavorited(!isFavorited);
-//   };
-//   const getProductsFunc = () => {
-//     dispatch(getProducts());
+//     setQuantity(prevQuantity => prevQuantity + 1);
 //   };
 
+//   const handleQuantityDecrease = () => {
+//     setQuantity(prevQuantity => Math.max(0, prevQuantity - 1));
+//   };
+
+//   const handleFavourites = () => {
+//     setIsFavorited(prevIsFavorited => !prevIsFavorited);
+//   };
+//   const handleProductPage = () => {
+//     navigation.navigate('ProductPageScreen' as never);
+//   };
+
+//   return (
+//     <TouchableOpacity
+//       onPress={handleProductPage}
+//       key={product.id}
+//       style={{
+//         backgroundColor: Colors.gray2,
+//         borderRadius: 12,
+//         width: '46%',
+//         padding: 10,
+//         marginTop: 10,
+//       }}>
+//       <View
+//         style={{
+//           flexDirection: 'row',
+//           alignItems: 'center',
+//         }}>
+//         {isFavorited ? (
+//           <FilledHeartIcon
+//             onPress={handleFavourites}
+//             width={20}
+//             height={20}
+//             style={{marginTop: -80}}
+//           />
+//         ) : (
+//           <HeartIcon
+//             width={20}
+//             height={20}
+//             onPress={handleFavourites}
+//             style={{marginTop: -80}}
+//           />
+//         )}
+//         <Image
+//           source={{
+//             uri: product.images[0],
+//           }}
+//           style={{
+//             width: '80%',
+//             height: 100,
+//             borderRadius: 8,
+//             marginLeft: 10,
+//           }}
+//           resizeMode="cover"
+//         />
+//       </View>
+//       <View
+//         style={{
+//           marginTop: 10,
+//           flexDirection: 'row',
+//           alignItems: 'center',
+//         }}>
+//         <Text>{product.price}$</Text>
+//         {quantity > 0 ? (
+//           <View
+//             style={{
+//               backgroundColor: Colors.white,
+//               flexDirection: 'row',
+//               marginLeft: 50,
+//             }}>
+//             <View style={{flexDirection: 'row'}}>
+//               <TouchableOpacity
+//                 onPress={handleQuantityDecrease}
+//                 style={{
+//                   backgroundColor: Colors.darkBlue,
+//                   borderRadius: 50,
+//                 }}>
+//                 <MinusIcon width={20} height={20} />
+//               </TouchableOpacity>
+//               <Text> {quantity}</Text>
+//               <TouchableOpacity
+//                 onPress={handleQuantityIncrease}
+//                 style={{
+//                   backgroundColor: Colors.darkBlue,
+//                   borderRadius: 50,
+//                   marginLeft: 5,
+//                 }}>
+//                 <PlusIcon width={20} height={20} />
+//               </TouchableOpacity>
+//             </View>
+//           </View>
+//         ) : (
+//           <TouchableOpacity
+//             onPress={handleQuantityIncrease}
+//             style={{
+//               backgroundColor: Colors.darkBlue,
+//               borderRadius: 50,
+//               marginLeft: 80,
+//             }}>
+//             <PlusIcon width={20} height={20} />
+//           </TouchableOpacity>
+//         )}
+//       </View>
+//       <Text>{product.title}</Text>
+//     </TouchableOpacity>
+//   );
+// };
+
+// const Product = () => {
+//   const fetchedProducts = useSelector(selectProducts);
+//   const isLoading = useSelector(selectLoading);
+//   const searchText = useSelector(selectSearchText);
+
+//   const [favoriteProducts, setFavoriteProducts] = useState<Product[]>([]);
+
+//   const dispatch = useDispatch<any>();
+
+//   useEffect(() => {
+//     dispatch(getProducts());
+//   }, []);
+//   console.log('This is', searchText);
+
+//   const filteredProducts = fetchedProducts.filter((product: Product) =>
+//     product.title.toLowerCase().includes(searchText.toLowerCase()),
+//   );
 //   return (
 //     <>
 //       {isLoading ? (
@@ -59,115 +170,15 @@
 //             flexWrap: 'wrap',
 //             justifyContent: 'space-between',
 //           }}>
-//           {fetchedProducts.products.length > 0 ? (
+//           {filteredProducts.length > 0 ? (
 //             <>
-//               {fetchedProducts.products.map((product:Product) => (
-//                 <View
-//                   key={product.id} // Assuming there is an 'id' property in your product objects
-//                   style={{
-//                     backgroundColor: Colors.gray2,
-//                     borderRadius: 12,
-//                     width: '46%',
-//                     padding: 10,
-//                     marginTop: 10,
-//                   }}>
-//                   <View
-//                     style={{
-//                       flexDirection: 'row',
-//                       alignItems: 'center',
-//                     }}>
-//                     {isFavorited ? (
-//                       <FilledHeartIcon
-//                         onPress={handleFavourites}
-//                         width={20}
-//                         height={20}
-//                         style={{marginTop: -80}}
-//                       />
-//                     ) : (
-//                       <HeartIcon
-//                         width={20}
-//                         height={20}
-//                         onPress={handleFavourites}
-//                         style={{marginTop: -80}}
-//                       />
-//                     )}
-//                     <Image
-//                       source={{
-//                         uri: product.images[0],
-//                       }}
-//                       style={{
-//                         width: '80%',
-//                         height: 100,
-//                         borderRadius: 8,
-//                         marginLeft: 10,
-//                       }}
-//                       resizeMode="cover"
-//                     />
-//                   </View>
-//                   <View
-//                     style={{
-//                       marginTop: 10,
-//                       flexDirection: 'row',
-//                       alignItems: 'center',
-//                     }}>
-//                     <Text>{product.price}$</Text>
-
-//                     {quantity > 0 ? (
-//                       <View
-//                         style={{
-//                           backgroundColor: Colors.white,
-//                           flexDirection: 'row',
-//                           marginLeft: 50,
-//                         }}>
-//                         <View style={{flexDirection: 'row'}}>
-//                           <View
-//                             style={{
-//                               backgroundColor: Colors.darkBlue,
-//                               borderRadius: 50,
-//                             }}>
-//                             <MinusIcon
-//                               onPress={handleQuantityDecrease}
-//                               width={20}
-//                               height={20}
-//                             />
-//                           </View>
-//                           <Text> {quantity}</Text>
-//                           <View
-//                             style={{
-//                               backgroundColor: Colors.darkBlue,
-//                               borderRadius: 50,
-//                               marginLeft: 5,
-//                             }}>
-//                             <PlusIcon
-//                               onPress={handleQuantityIncrease}
-//                               width={20}
-//                               height={20}
-//                             />
-//                           </View>
-//                         </View>
-//                       </View>
-//                     ) : (
-//                       <View
-//                         style={{
-//                           backgroundColor: Colors.darkBlue,
-//                           borderRadius: 50,
-//                           marginLeft: 80,
-//                         }}>
-//                         <PlusIcon
-//                           onPress={handleQuantityIncrease}
-//                           width={20}
-//                           height={20}
-//                         />
-//                       </View>
-//                     )}
-//                   </View>
-//                   <Text>{product.title}</Text>
-//                 </View>
+//               {filteredProducts.map((product: Product) => (
+//                 <ProductComponent key={product.id} product={product} />
 //               ))}
 //             </>
 //           ) : (
 //             <View>
-//               <Text>No Prodcts</Text>
+//               <Text>No Products</Text>
 //             </View>
 //           )}
 //         </View>
@@ -178,8 +189,8 @@
 
 // export default Product;
 
-import {View, Text, Image, TouchableOpacity} from 'react-native';
 import React, {useEffect, useState} from 'react';
+import {View, Text, Image, TouchableOpacity} from 'react-native';
 import {Colors} from '../../constants/theme';
 import {
   HeartIcon,
@@ -189,8 +200,13 @@ import {
 } from '../../images/svg';
 import {useDispatch, useSelector} from 'react-redux';
 import {getProducts} from '../../redux/actions/productAction';
-import {selectLoading, selectProducts} from '../../redux/slices/productsSlice';
+import {
+  selectLoading,
+  selectProducts,
+  selectSearchText,
+} from '../../redux/slices/productsSlice';
 import {useNavigation} from '@react-navigation/native';
+import {favProductReducer} from '../../redux/slices/favouriteSlice';
 
 interface Product {
   id: number;
@@ -199,7 +215,15 @@ interface Product {
   images: string[];
 }
 
-const ProductComponent = ({product}: {product: Product}) => {
+const ProductComponent = ({
+  product,
+  favoriteProducts,
+  setFavoriteProducts,
+}: {
+  product: Product;
+  favoriteProducts: Product[];
+  setFavoriteProducts: React.Dispatch<React.SetStateAction<Product[]>>;
+}) => {
   const [quantity, setQuantity] = useState(0);
   const [isFavorited, setIsFavorited] = useState(false);
 
@@ -215,7 +239,22 @@ const ProductComponent = ({product}: {product: Product}) => {
 
   const handleFavourites = () => {
     setIsFavorited(prevIsFavorited => !prevIsFavorited);
+
+    const isProductInFavorites = favoriteProducts.some(
+      favoriteProduct => favoriteProduct.id === product.id,
+    );
+
+    if (!isProductInFavorites) {
+      setFavoriteProducts(prevFavorites => [...prevFavorites, product]);
+    } else {
+      setFavoriteProducts(prevFavorites =>
+        prevFavorites.filter(
+          favoriteProduct => favoriteProduct.id !== product.id,
+        ),
+      );
+    }
   };
+
   const handleProductPage = () => {
     navigation.navigate('ProductPageScreen' as never);
   };
@@ -236,7 +275,9 @@ const ProductComponent = ({product}: {product: Product}) => {
           flexDirection: 'row',
           alignItems: 'center',
         }}>
-        {isFavorited ? (
+        {favoriteProducts.some(
+          favoriteProduct => favoriteProduct.id === product.id,
+        ) ? (
           <FilledHeartIcon
             onPress={handleFavourites}
             width={20}
@@ -319,15 +360,21 @@ const ProductComponent = ({product}: {product: Product}) => {
 const Product = () => {
   const fetchedProducts = useSelector(selectProducts);
   const isLoading = useSelector(selectLoading);
+  const searchText = useSelector(selectSearchText);
+
   const dispatch = useDispatch<any>();
+  const [favoriteProducts, setFavoriteProducts] = useState<Product[]>([]);
 
   useEffect(() => {
-    getProductsFunc();
+    dispatch(getProducts());
   }, []);
 
-  const getProductsFunc = () => {
-    dispatch(getProducts());
-  };
+  const filteredProducts = fetchedProducts.filter((product: Product) =>
+    product.title.toLowerCase().includes(searchText.toLowerCase()),
+  );
+  useEffect(() => {
+    dispatch(favProductReducer(favoriteProducts));
+  }, [favoriteProducts]);
 
   return (
     <>
@@ -342,10 +389,15 @@ const Product = () => {
             flexWrap: 'wrap',
             justifyContent: 'space-between',
           }}>
-          {fetchedProducts.products.length > 0 ? (
+          {filteredProducts.length > 0 ? (
             <>
-              {fetchedProducts.products.map((product: Product) => (
-                <ProductComponent key={product.id} product={product} />
+              {filteredProducts.map((product: Product) => (
+                <ProductComponent
+                  key={product.id}
+                  product={product}
+                  favoriteProducts={favoriteProducts}
+                  setFavoriteProducts={setFavoriteProducts}
+                />
               ))}
             </>
           ) : (

@@ -1,41 +1,44 @@
 import {View, Text, TextInput, TouchableOpacity} from 'react-native';
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {Colors} from '../../constants/theme';
 import {BagIcon, DropDownIcon, SearchIcon} from '../../images/svg';
 import headerStyles from './style';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
+import {useDispatch} from 'react-redux';
+import {searchReducer} from '../../redux/slices/productsSlice';
 const Header = () => {
-
   const multipleAddress = [
     'Green Way 3000, Sylhet',
     'House No.7, Jammu',
     'Golden Manor, Dehradun',
   ];
   const avaliableTimings = ['30 Mins', '1 Hour', '2 Hour'];
-  
-  const [search, setSearch] = useState('')
+
+  const [search, setSearch] = useState('');
   const [address, setAddress] = useState(multipleAddress[0]);
   const [timings, setTimings] = useState(avaliableTimings[0]);
 
   const navigation = useNavigation();
-  const handleSearch = () => {
-    
-    console.log("Hello i am gere");
-    
-  }
+  const dispatch = useDispatch<any>();
+
+  const handleSearch = (text: string) => {
+    setSearch(text);
+  };
+  useEffect(() => {
+    dispatch(searchReducer({search}));
+  }, [handleSearch])
+  
 
   const toggleTiming = () => {
-    console.log("hgELLO IT IS DROPDOWN");
-    
-  }
+    console.log('hgELLO IT IS DROPDOWN');
+  };
   const toggleAddress = () => {
-    console.log("Hello this is clicked");
-    
-  }
+    console.log('Hello this is clicked');
+  };
 
   const handleCart = () => {
-    navigation.navigate('CartScreen' as never)
-  }
+    navigation.navigate('CartScreen' as never);
+  };
   return (
     <View style={headerStyles.headerContainer}>
       <View style={headerStyles.titleContainer}>
@@ -53,25 +56,25 @@ const Header = () => {
         />
       </View>
       <View style={headerStyles.buttonContainer}>
-          <View>
-            <Text style={headerStyles.smallText}>DELIVERY TO</Text>
-            <TouchableOpacity onPress={toggleAddress}>
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <Text style={headerStyles.addressText}>{address}</Text>
-                <DropDownIcon />
-              </View>
-            </TouchableOpacity>
-          </View>
-          <View>
-            <Text style={headerStyles.smallText}>WITHIN</Text>
-            <TouchableOpacity onPress={toggleTiming}>
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <Text style={headerStyles.addressText}>{timings}</Text>
-                <DropDownIcon />
-              </View>
-            </TouchableOpacity>
-          </View>
+        <View>
+          <Text style={headerStyles.smallText}>DELIVERY TO</Text>
+          <TouchableOpacity onPress={toggleAddress}>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Text style={headerStyles.addressText}>{address}</Text>
+              <DropDownIcon />
+            </View>
+          </TouchableOpacity>
         </View>
+        <View>
+          <Text style={headerStyles.smallText}>WITHIN</Text>
+          <TouchableOpacity onPress={toggleTiming}>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Text style={headerStyles.addressText}>{timings}</Text>
+              <DropDownIcon />
+            </View>
+          </TouchableOpacity>
+        </View>
+      </View>
     </View>
   );
 };

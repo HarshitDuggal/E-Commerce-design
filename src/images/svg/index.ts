@@ -7,7 +7,19 @@ import SearchIcon from './Search.svg';
 import DropDownIcon from './drop arrow icon.svg';
 import ImageIcon from './ImageIcon.svg';
 import PlusIcon from './plusIcon.svg';
-import MinusIcon from './Minus.svg'
-import FilledHeartIcon from './heartIcon.svg'
+import MinusIcon from './Minus.svg';
+import FilledHeartIcon from './heartIcon.svg';
 
-export {CategoryIcon,HeartIcon,HomeIcon,MoreIcon,BagIcon,SearchIcon,DropDownIcon,ImageIcon,PlusIcon,MinusIcon,FilledHeartIcon};
+export {
+  CategoryIcon,
+  HeartIcon,
+  HomeIcon,
+  MoreIcon,
+  BagIcon,
+  SearchIcon,
+  DropDownIcon,
+  ImageIcon,
+  PlusIcon,
+  MinusIcon,
+  FilledHeartIcon,
+};
