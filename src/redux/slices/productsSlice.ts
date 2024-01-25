@@ -8,12 +8,18 @@ const ProductsSlice = createSlice({
     products: [],
     isLoading: false,
     searchText: '',
+    productId: 0,
   },
   reducers: {
     searchReducer(state, action) {
       console.log('This is action search', action.payload.search);
 
       state.searchText = action.payload.search;
+    },
+    productIdReducer(state, action) {
+      console.log(action.payload);
+
+      state.productId = action.payload;
     },
   },
   extraReducers: builder => {
@@ -34,5 +40,6 @@ const ProductsSlice = createSlice({
 export const selectProducts = (state: RootState) => state.product.products;
 export const selectLoading = (state: RootState) => state.product.isLoading;
 export const selectSearchText = (state: RootState) => state.product.searchText;
-export const {searchReducer} = ProductsSlice.actions;
+export const selectProductId = (state: RootState) => state.product.productId;
+export const {searchReducer, productIdReducer} = ProductsSlice.actions;
 export default ProductsSlice.reducer;

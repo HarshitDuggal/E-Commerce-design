@@ -15,7 +15,7 @@ const FavouriteSlice = createSlice({
   },
 });
 
-export const selectActiveDay = (state: RootState) =>
+export const selectFavouriteProduct = (state: RootState) =>
   state.favourite.favouriteProducts;
 export const {favProductReducer} = FavouriteSlice.actions;
 export default FavouriteSlice.reducer;
