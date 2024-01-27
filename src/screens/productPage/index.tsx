@@ -63,7 +63,7 @@ const ProductPage = () => {
         updatedCart.splice(index, 1); // Remove the product from the cart
       } else {
         updatedCart[index] = {
-          ...updatedCart[index],
+          ...updatedCart[index], 
           quantity: updatedCart[index].quantity - 1,
         };
       }

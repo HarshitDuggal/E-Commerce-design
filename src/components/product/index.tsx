@@ -1,5 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Image, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native';
 import {Colors} from '../../constants/theme';
 import {
   HeartIcon,
@@ -227,13 +233,7 @@ const Product = () => {
   return (
     <>
       {isLoading ? (
-        <View style={{flex: 1}}>
-          <LottieView
-            source={require('../../images/json/Animation - 1706330325611.json')}
-            autoPlay
-            loop
-          />
-        </View>
+        <ActivityIndicator style={{marginTop: 100}} size="large" color="#000" />
       ) : (
         <View
           style={{

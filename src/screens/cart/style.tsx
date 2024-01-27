@@ -23,7 +23,7 @@ const cartStyles = StyleSheet.create({
   checkoutContainer: {
     width: '95%',
     height: 250,
-    backgroundColor: Colors.black,
+    backgroundColor: Colors.gray3,
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     position: 'absolute',
