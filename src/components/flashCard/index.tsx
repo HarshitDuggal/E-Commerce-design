@@ -1,4 +1,4 @@
-import { View, Text, Image } from 'react-native'
+import { View, Text } from 'react-native'
 import React from 'react'
 import { flashCardStyles } from './style'
 import { ImageIcon } from '../../images/svg'

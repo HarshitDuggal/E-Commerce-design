@@ -17,7 +17,8 @@ import {
 } from '../../redux/slices/productsSlice';
 import {useNavigation} from '@react-navigation/native';
 import {favProductReducer} from '../../redux/slices/favouriteSlice';
-
+import {productQuantityReducer} from '../../redux/slices/productQuantitySlice';
+import LottieView from 'lottie-react-native';
 interface Product {
   id: number;
   title: string;
@@ -30,28 +31,58 @@ export const ProductComponent = ({
   favoriteProducts,
   setFavoriteProducts,
   showHeartIcon = true,
+  cart,
+  setCart,
 }: {
   product: Product;
   favoriteProducts: Product[];
   setFavoriteProducts: React.Dispatch<React.SetStateAction<Product[]>>;
   showHeartIcon?: boolean;
+  cart: {product: Product; quantity: number}[];
+  setCart: React.Dispatch<
+    React.SetStateAction<{product: Product; quantity: number}[]>
+  >;
 }) => {
-  const [quantity, setQuantity] = useState(0);
-  const [isFavorited, setIsFavorited] = useState(false);
-
   const navigation = useNavigation();
+  const cartItem = cart.find(item => item.product.id === product.id);
+  const quantity = cartItem ? cartItem.quantity : 0;
 
   const handleQuantityIncrease = () => {
-    setQuantity(prevQuantity => prevQuantity + 1);
+    const index = cart.findIndex(item => item.product.id === product.id);
+    if (index !== -1) {
+      const updatedCart = [...cart];
+      updatedCart[index] = {
+        ...updatedCart[index],
+        quantity: updatedCart[index].quantity + 1,
+      };
+      setCart(updatedCart);
+      dispatch(productQuantityReducer(updatedCart));
+    } else {
+      // If the product is not in the cart, add it with quantity 1
+      const updatedCart = [...cart, {product: product, quantity: 1}];
+      setCart(updatedCart);
+      dispatch(productQuantityReducer(updatedCart));
+    }
   };
 
   const handleQuantityDecrease = () => {
-    setQuantity(prevQuantity => Math.max(0, prevQuantity - 1));
+    const index = cart.findIndex(item => item.product.id === product.id);
+    if (index !== -1) {
+      const updatedCart = [...cart];
+      if (updatedCart[index].quantity === 1) {
+        updatedCart.splice(index, 1); // Remove the product from the cart
+      } else {
+        updatedCart[index] = {
+          ...updatedCart[index],
+          quantity: updatedCart[index].quantity - 1,
+        };
+      }
+      setCart(updatedCart); // Update the cart state
+      dispatch(productQuantityReducer(updatedCart)); // Dispatch action with updatedCart
+    }
   };
 
   const handleFavourites = () => {
-    setIsFavorited(prevIsFavorited => !prevIsFavorited);
-
     const isProductInFavorites = favoriteProducts.some(
       favoriteProduct => favoriteProduct.id === product.id,
     );
@@ -69,8 +100,7 @@ export const ProductComponent = ({
   const dispatch = useDispatch();
   const handleProductPage = (id: number) => {
     navigation.navigate('ProductPageScreen' as never);
-    dispatch(productIdReducer(id))
-    console.log("productid",id);
+    dispatch(productIdReducer(id));
   };
 
   return (
@@ -181,7 +211,7 @@ const Product = () => {
 
   const dispatch = useDispatch<any>();
   const [favoriteProducts, setFavoriteProducts] = useState<Product[]>([]);
-
+  const [cart, setCart] = useState<{product: Product; quantity: number}[]>([]);
   useEffect(() => {
     dispatch(getProducts());
   }, []);
@@ -189,6 +219,7 @@ const Product = () => {
   const filteredProducts = fetchedProducts.filter((product: Product) =>
     product.title.toLowerCase().includes(searchText.toLowerCase()),
   );
+
   useEffect(() => {
     dispatch(favProductReducer(favoriteProducts));
   }, [favoriteProducts]);
@@ -196,8 +227,12 @@ const Product = () => {
   return (
     <>
       {isLoading ? (
-        <View>
-          <Text>Products coming your way</Text>
+        <View style={{flex: 1}}>
+          <LottieView
+            source={require('../../images/json/Animation - 1706330325611.json')}
+            autoPlay
+            loop
+          />
         </View>
       ) : (
         <View
@@ -214,6 +249,8 @@ const Product = () => {
                   product={product}
                   favoriteProducts={favoriteProducts}
                   setFavoriteProducts={setFavoriteProducts}
+                  cart={cart}
+                  setCart={setCart}
                 />
               ))}
             </>
