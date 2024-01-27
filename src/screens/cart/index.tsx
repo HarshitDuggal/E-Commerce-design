@@ -3,15 +3,23 @@ import {View, StatusBar, TouchableOpacity, Text} from 'react-native';
 import {useSelector} from 'react-redux';
 import {Colors} from '../../constants/theme';
 import HeaderContainer from '../../components/productPageHeader';
-import {selectproductWithQuantity} from '../../redux/slices/productQuantitySlice';
+import {
+  selectDelivery,
+  selectTotal,
+  selectproductWithQuantity,
+  selectsubTotal,
+} from '../../redux/slices/productQuantitySlice';
 import ListingCard from '../../components/listingCard';
 import cartStyles from './style';
 import LottieView from 'lottie-react-native';
 
 const Cart = () => {
   const productsInCart = useSelector(selectproductWithQuantity);
-  console.log("This is products in cart length", productsInCart.length);
-  
+  const total = useSelector(selectTotal);
+  const delivery = useSelector(selectDelivery);
+  const subTotal = useSelector(selectsubTotal);
+  console.log('This is products in cart length', productsInCart.length);
+
   return (
     <View style={cartStyles.mainContainer}>
       <StatusBar backgroundColor={Colors.white} barStyle={'dark-content'} />
@@ -31,15 +39,33 @@ const Cart = () => {
             <View style={{marginTop: 10}}>
               <View style={cartStyles.totalContainer}>
                 <Text style={cartStyles.totalText}>Subtotal</Text>
-                <Text style={[cartStyles.totalText, {fontFamily: 'Manrope-Medium'}]}>$ total</Text>
+                <Text
+                  style={[
+                    cartStyles.totalText,
+                    {fontFamily: 'Manrope-Medium'},
+                  ]}>
+                  ${total}
+                </Text>
               </View>
               <View style={cartStyles.totalContainer}>
                 <Text style={cartStyles.totalText}>Delivery</Text>
-                <Text style={[cartStyles.totalText, {fontFamily: 'Manrope-Medium'}]}>$ delivery</Text>
+                <Text
+                  style={[
+                    cartStyles.totalText,
+                    {fontFamily: 'Manrope-Medium'},
+                  ]}>
+                  ${delivery}
+                </Text>
               </View>
               <View style={cartStyles.totalContainer}>
                 <Text style={cartStyles.totalText}>Total</Text>
-                <Text style={[cartStyles.totalText, {fontFamily: 'Manrope-Medium'}]}>$ total + delivery</Text>
+                <Text
+                  style={[
+                    cartStyles.totalText,
+                    {fontFamily: 'Manrope-Medium'},
+                  ]}>
+                  $ {subTotal}
+                </Text>
               </View>
             </View>
             <TouchableOpacity style={cartStyles.checkoutButton}>
@@ -48,9 +74,9 @@ const Cart = () => {
           </View>
         </>
       ) : (
-        <View style={{flex:1/0.9}}>
+        <View style={{flex: 1 / 0.9}}>
           <LottieView
-          style={{flex:1}}
+            style={{flex: 1}}
             source={require('../../images/json/EmptyCart.json')}
             autoPlay
             loop

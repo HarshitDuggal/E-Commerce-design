@@ -2,8 +2,11 @@ import {View, StyleSheet, Image, Text, TouchableOpacity} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Colors} from '../../constants/theme';
 import {MinusBlack, PlusBlack} from '../../images/svg/index';
-import {useDispatch} from 'react-redux';
-import {productQuantityReducer} from '../../redux/slices/productQuantitySlice';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  // calculateTotal,
+  productQuantityReducer,
+} from '../../redux/slices/productQuantitySlice';
 
 interface Product {
   id: number;
@@ -62,6 +65,9 @@ const ListingCard = ({cartProducts}) => {
   useEffect(() => {
     setCart(cartProducts);
   }, []);
+  // useEffect(() => {
+  //   dispatch(calculateTotal());
+  // }, [handleDecreaseQuantity, handleIncreaseQuantity]);
   return (
     <View style={{paddingLeft: '5%', paddingRight: '5%', marginTop: 30}}>
       {cart?.map(item => (

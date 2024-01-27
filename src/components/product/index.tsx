@@ -217,7 +217,7 @@ const Product = () => {
   const fetchedProducts = useSelector(selectProducts);
   const isLoading = useSelector(selectLoading);
   const searchText = useSelector(selectSearchText);
-  const productQty = useSelector(selectproductWithQuantity);
+  // const productQty = useSelector(selectproductWithQuantity);
 
   const dispatch = useDispatch<any>();
   const [favoriteProducts, setFavoriteProducts] = useState<Product[]>([]);
