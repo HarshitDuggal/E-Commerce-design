@@ -23,7 +23,7 @@ const HeaderContainer = ({title, showCartButton}) => {
         </TouchableOpacity>
         <Text style={styles.headerText}>{title}</Text>
       </View>
-      {showCartButton ? <BlackBag   /> : null}
+      {showCartButton ? <BlackBag onPress={() => navigation.navigate('CartScreen' as never)}   /> : null}
     </View>
   );
 };

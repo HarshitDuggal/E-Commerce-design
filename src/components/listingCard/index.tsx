@@ -13,7 +13,6 @@ interface Product {
 }
 
 const ListingCard = ({cartProducts}) => {
-  const [avaliableItems, setAvaliableItems] = useState(cartProducts);
   const [cart, setCart] = useState<{product: Product; quantity: number}[]>([]);
 
   const dispatch = useDispatch();
@@ -61,14 +60,11 @@ const ListingCard = ({cartProducts}) => {
   };
 
   useEffect(() => {
-    setAvaliableItems(cartProducts);
-  }, [cartProducts]);
-  useEffect(() => {
     setCart(cartProducts);
   }, []);
   return (
     <View style={{paddingLeft: '5%', paddingRight: '5%', marginTop: 30}}>
-      {avaliableItems?.map(item => (
+      {cart?.map(item => (
         <View key={item.product.id}>
           <View style={styles.mainContainer}>
             <View style={styles.imageContainer}>

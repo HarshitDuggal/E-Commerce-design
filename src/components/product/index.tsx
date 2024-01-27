@@ -23,7 +23,10 @@ import {
 } from '../../redux/slices/productsSlice';
 import {useNavigation} from '@react-navigation/native';
 import {favProductReducer} from '../../redux/slices/favouriteSlice';
-import {productQuantityReducer} from '../../redux/slices/productQuantitySlice';
+import {
+  productQuantityReducer,
+  selectproductWithQuantity,
+} from '../../redux/slices/productQuantitySlice';
 import LottieView from 'lottie-react-native';
 interface Product {
   id: number;
@@ -214,6 +217,7 @@ const Product = () => {
   const fetchedProducts = useSelector(selectProducts);
   const isLoading = useSelector(selectLoading);
   const searchText = useSelector(selectSearchText);
+  const productQty = useSelector(selectproductWithQuantity);
 
   const dispatch = useDispatch<any>();
   const [favoriteProducts, setFavoriteProducts] = useState<Product[]>([]);
@@ -229,7 +233,7 @@ const Product = () => {
   useEffect(() => {
     dispatch(favProductReducer(favoriteProducts));
   }, [favoriteProducts]);
-
+  
   return (
     <>
       {isLoading ? (

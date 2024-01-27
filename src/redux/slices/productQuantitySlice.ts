@@ -11,6 +11,7 @@ const ProductQuantitySlice = createSlice({
       state.productswithQuantity = action.payload;
       console.log('This is state', state.productswithQuantity);
     },
+    
   },
 });
 
